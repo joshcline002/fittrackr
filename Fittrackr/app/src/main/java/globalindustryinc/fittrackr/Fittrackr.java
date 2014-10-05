@@ -27,6 +27,9 @@ public class Fittrackr extends FragmentActivity {
         dlDrawer.addNavItem("Lifting",R.drawable.lifting,"Lifting", Lifting.class);
         dlDrawer.addNavItem("Cardio",R.drawable.running, "Cardio", Cardio.class);
         dlDrawer.addNavItem("Measure",R.drawable.measure, "Measurements", Measure.class);
+        dlDrawer.addNavItem("LiftingGraph",R.drawable.lifting,"LiftingGraph", LiftingGraph.class);
+        dlDrawer.addNavItem("CardioGraph",R.drawable.running, "CardioGraph", CardioGraph.class);
+        dlDrawer.addNavItem("MeasureGraph",R.drawable.measure, "MeasurementsGraphs", MeasureGraph.class);
         // Select default
         if (savedInstanceState == null) {
             dlDrawer.selectDrawerItem(0);
