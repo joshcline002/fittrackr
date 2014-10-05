@@ -17,30 +17,42 @@
         android:id="@+id/exerciseNameTextView"
         android:layout_weight="1.0" />
 
-    <TextView
+    <EditText
         android:minWidth="64dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="30"
         android:gravity="center"
         android:id="@+id/repsTextView"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:inputType="number"
+        android:hint="0"
+        android:background="@android:color/transparent"/>
 
-    <TextView
+    <EditText
         android:minWidth="64dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="5"
         android:gravity="center"
         android:id="@+id/setsTextView"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:inputType="number"
+        android:hint="0"
+        android:background="@android:color/transparent"/>
 
-    <TextView
+    <EditText
         android:minWidth="64dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="75"
         android:gravity="center"
         android:id="@+id/weightTextView"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:inputType="number"
+        android:hint="0"
+        android:background="@android:color/transparent"/>
 </LinearLayout>

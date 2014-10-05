@@ -5,6 +5,10 @@ package globalindustryinc.fittrackr;
  */
 public class Exercise {
 
+    public static enum ATTRIBUTES{
+        NAME, REPS, SETS, WEIGHT;
+    }
+
     String name;
     int reps;
     int sets;
@@ -15,6 +19,20 @@ public class Exercise {
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;
+    }
+
+    public void setValue(ATTRIBUTES attribute,int value){
+        switch (attribute){
+            case REPS:
+                reps = value;
+                break;
+            case SETS:
+                sets = value;
+                break;
+            case WEIGHT:
+                weight = value;
+                break;
+        }
     }
 
 }
