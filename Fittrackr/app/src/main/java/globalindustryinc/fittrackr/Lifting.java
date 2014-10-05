@@ -49,8 +49,7 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
         setupLiftingInput();
         setupLiftingListView();
 
-        // Setup handles to view objects here
-        // etFoo = (EditText) view.findViewById(R.id.etFoo);
+        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -119,7 +118,7 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
     }
 
     private void notifyDatabaseOfChangedExercise(){
-        Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG);
+        Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG).show();
     }
 
     private class LiftingListViewAdapter extends BaseAdapter implements TextView.OnEditorActionListener{
