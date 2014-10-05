@@ -13,15 +13,19 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.LinkedList;
 
 public class Lifting extends android.support.v4.app.Fragment implements TextView.OnEditorActionListener {
 
     View rootView;
     EditText liftingInput;
     ListView liftingListView;
+    LinkedList<Exercise> exercises;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,6 +37,9 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
         liftingInput = (EditText) rootView.findViewById(R.id.lifting_input);
         liftingListView = (ListView) rootView.findViewById(R.id.liftingListView);
 
+        // Initialize and fetch data
+        fetchExerciseData();
+
         // Setup views for use
         setupLiftingInput();
         setupLiftingListView();
@@ -42,8 +49,13 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
         return rootView;
     }
 
+    private void fetchExerciseData() {
+        exercises = new LinkedList<Exercise>();
+    }
+
     private void setupLiftingInput() {
         liftingInput.setOnEditorActionListener(this);
+        liftingInput.setImeActionLabel("Add",EditorInfo.IME_ACTION_DONE);
     }
 
     @Override
@@ -55,14 +67,15 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
     }
 
     private void addExercise(String exerciseName) {
-        Toast.makeText(liftingInput.getContext(),exerciseName,Toast.LENGTH_LONG);
-    }
+        exercises.add(new Exercise(exerciseName,0,0,0));
+        liftingInput.getText().clear();
+        ((LiftingListViewAdapter)((HeaderViewListAdapter)liftingListView.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();    }
 
     /**
      * Sets up the adapter for the listview and adds a header to clarify data in list items.
      */
     private void setupLiftingListView() {
-        liftingListView.setAdapter(new LiftingListViewAdapter());
+        if(exercises!=null) liftingListView.setAdapter(new LiftingListViewAdapter());
         liftingListView.addHeaderView(generateHeader());
     }
 
@@ -88,21 +101,19 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
 
     private class LiftingListViewAdapter extends BaseAdapter{
 
-
-
         @Override
         public int getCount() {
-            return 5;
+            return exercises.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return exercises.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -114,11 +125,13 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
             }
             else itemView = (ExerciseItemView) reusableView;
 
+            Exercise exercise = (Exercise) getItem(position);
+
             // File ExerciseItemView with the appropriate data
-            itemView.exerciseName.setText("Execise Type "+position);
-            itemView.reps.setText("30");
-            itemView.sets.setText("5");
-            itemView.weight.setText("75");
+            itemView.exerciseName.setText(exercise.name);
+            itemView.reps.setText(exercise.reps+"");
+            itemView.sets.setText(exercise.sets+"");
+            itemView.weight.setText(exercise.weight+"");
 
             return itemView;
         }

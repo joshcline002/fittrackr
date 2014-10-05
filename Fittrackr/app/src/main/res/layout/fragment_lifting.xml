@@ -17,8 +17,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:hint="Exercise"
-        android:inputType="text"
-        android:imeActionLabel="Add"/>
+        android:inputType="text"  />
 
     <ListView
         android:scrollbarStyle="outsideOverlay"
