@@ -1,94 +1,28 @@
 package globalindustryinc.fittrackr;
 
+import android.graphics.Typeface;
+import android.util.Pair;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+
 /**
  * Created by jccline on 10/5/2014.
  */
 
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.util.Pair;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.HeaderViewListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.LinkedList;
-
-public class Lifting extends android.support.v4.app.Fragment implements TextView.OnEditorActionListener {
-
-    View rootView;
-    EditText liftingInput;
-    ListView liftingListView;
-    LinkedList<Exercise> exercises;
-    LinkedList<Exercise> changedExercises = new LinkedList<Exercise>();
+public class Lifting extends ExerciseFragment{
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Defines the xml file for the fragment
-        rootView = inflater.inflate(R.layout.fragment_lifting, container, false);
-
-        // Obtain views from layout
-        liftingInput = (EditText) rootView.findViewById(R.id.lifting_input);
-        liftingListView = (ListView) rootView.findViewById(R.id.liftingListView);
-
-        // Initialize and fetch data
-        fetchExerciseData();
-
-        // Setup views for use
-        setupLiftingInput();
-        setupLiftingListView();
-
-        setHasOptionsMenu(true);
-        return rootView;
-    }
-
-    private void fetchExerciseData() {
-        exercises = new LinkedList<Exercise>();
-    }
-
-    private void setupLiftingInput() {
-        liftingInput.setOnEditorActionListener(this);
-        liftingInput.setImeActionLabel("Add",EditorInfo.IME_ACTION_DONE);
+    Exercise.EXERCISE_TYPE getExerciseType() {
+        return Exercise.EXERCISE_TYPE.LIFTING;
     }
 
     @Override
-    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-        if(EditorInfo.IME_ACTION_DONE==actionId){
-            addExercise(liftingInput.getText().toString());
-        }
-        return false;
-    }
-
-    private void addExercise(String exerciseName) {
-        exercises.add(new Exercise(exerciseName,0,0,0));
-        liftingInput.getText().clear();
-        ((LiftingListViewAdapter)((HeaderViewListAdapter)liftingListView.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();    }
-
-    /**
-     * Sets up the adapter for the listview and adds a header to clarify data in list items.
-     */
-    private void setupLiftingListView() {
-        if(exercises!=null) liftingListView.setAdapter(new LiftingListViewAdapter());
-        liftingListView.addHeaderView(generateHeader());
-    }
-
-    /**
-     * Generates header for the listview. By default sets all items to bold
-     * @return ExerciseItemView representing items
-     */
-    private ExerciseItemView generateHeader(){
-        ExerciseItemView header = new ExerciseItemView(liftingListView.getContext());
+    ExerciseItemView generateHeader() {
+        ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
         header.exerciseName.setText("Exercise");
         header.reps.setText("Reps");
@@ -100,93 +34,51 @@ public class Lifting extends android.support.v4.app.Fragment implements TextView
         header.sets.setTypeface(null, Typeface.BOLD);
         header.weight.setTypeface(null, Typeface.BOLD);
 
+        header.reps.setVisibility(View.VISIBLE);
+        header.sets.setVisibility(View.VISIBLE);
+        header.weight.setVisibility(View.VISIBLE);
+
         return header;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main,menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+    public View getView(int position, View reusableView, ViewGroup parent,ExerciseListViewAdapter adapter) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(R.id.save==item.getItemId()){
-            notifyDatabaseOfChangedExercise();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+        // Reuse of create new ExerciseItemView
+        ExerciseItemView itemView;
+        if(reusableView==null) itemView = new ExerciseItemView(parent.getContext());
+        else itemView = (ExerciseItemView) reusableView;
 
-    private void notifyDatabaseOfChangedExercise(){
-        Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG).show();
-    }
+        Exercise exercise = (Exercise) adapter.getItem(position);
+        // Set name
+        itemView.exerciseName.setText(exercise.name);
 
-    private class LiftingListViewAdapter extends BaseAdapter implements TextView.OnEditorActionListener{
+        // Fill ExerciseItemView with the appropriate data
+        itemView.reps.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.REPS));
+        itemView.sets.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.SETS));
+        itemView.weight.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.WEIGHT));
 
-        public int EXERCISE_KEY = 11;
-        public int ATTRIBUTE_KEY = 22;
+        // Set exercises and listeners for when done editing values, exercise can be edited
+        itemView.reps.setTag(
+                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.REPS)
+        );
+        itemView.reps.setOnEditorActionListener(adapter);
 
-        @Override
-        public int getCount() {
-            return exercises.size();
-        }
+        itemView.sets.setTag(
+                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.SETS)
+        );
+        itemView.sets.setOnEditorActionListener(adapter);
 
-        @Override
-        public Object getItem(int position) {
-            return exercises.get(position);
-        }
+        itemView.weight.setTag(
+                new Pair<Exercise,Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.WEIGHT)
+        );
+        itemView.weight.setOnEditorActionListener(adapter);
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        // Set data items visibility to true
+        itemView.reps.setVisibility(View.VISIBLE);
+        itemView.sets.setVisibility(View.VISIBLE);
+        itemView.weight.setVisibility(View.VISIBLE);
 
-        @Override
-        public View getView(int position, View reusableView, ViewGroup parent) {
-
-            // Reuse of create new ExerciseItemView
-            ExerciseItemView itemView;
-            if(reusableView==null){
-                itemView = new ExerciseItemView(parent.getContext());
-            }
-            else itemView = (ExerciseItemView) reusableView;
-
-            Exercise exercise = (Exercise) getItem(position);
-
-            // File ExerciseItemView with the appropriate data
-            itemView.exerciseName.setText(exercise.name);
-            itemView.reps.setText(exercise.reps==0 ? "" : exercise.reps+"");
-            itemView.sets.setText(exercise.sets==0 ? "" : exercise.sets+"");
-            itemView.weight.setText(exercise.weight==0 ? "" : exercise.weight+"");
-
-            // Set exercises and listeners for when done editing values, exercise can be edited
-            itemView.reps.setTag(
-                    new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.REPS)
-            );
-            itemView.reps.setOnEditorActionListener(this);
-            itemView.sets.setTag(
-                    new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.SETS)
-            );
-            itemView.sets.setOnEditorActionListener(this);
-            itemView.weight.setTag(
-                    new Pair<Exercise,Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.WEIGHT)
-            );
-            itemView.weight.setOnEditorActionListener(this);
-
-            return itemView;
-        }
-
-        @Override
-        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-            if(EditorInfo.IME_ACTION_DONE==actionId){
-                int newValue = Integer.parseInt(textView.getText().toString());
-                Pair<Exercise,Exercise.ATTRIBUTES> pair =
-                        (Pair<Exercise, Exercise.ATTRIBUTES>) textView.getTag();
-                Exercise exercise = pair.first;
-                exercise.setValue(pair.second, newValue);
-                if(!changedExercises.contains(exercise)) changedExercises.add(exercise);
-            }
-            return false;
-        }
+        return itemView;
     }
 }

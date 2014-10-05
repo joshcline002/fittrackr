@@ -1,38 +1,41 @@
 package globalindustryinc.fittrackr;
 
+import java.util.HashMap;
+
 /**
  * Created by Ian on 10/5/2014.
  */
 public class Exercise {
 
-    public static enum ATTRIBUTES{
-        NAME, REPS, SETS, WEIGHT;
+    public static enum EXERCISE_TYPE {
+        LIFTING, CARDIO, MEASURE;
+    }
+
+    public static enum ATTRIBUTES {
+        NAME, REPS, SETS, WEIGHT, TIME, DISTANCE, MEASUREMENT;
     }
 
     String name;
-    int reps;
-    int sets;
-    int weight;
+    EXERCISE_TYPE type;
+    HashMap<ATTRIBUTES,Integer> attributes;
 
-    public Exercise(String name, int reps, int sets, int weight){
+    public Exercise(EXERCISE_TYPE type,String name){
+        attributes = new HashMap<ATTRIBUTES, Integer>();
+        this.type = type;
         this.name = name;
-        this.reps = reps;
-        this.sets = sets;
-        this.weight = weight;
     }
 
     public void setValue(ATTRIBUTES attribute,int value){
-        switch (attribute){
-            case REPS:
-                reps = value;
-                break;
-            case SETS:
-                sets = value;
-                break;
-            case WEIGHT:
-                weight = value;
-                break;
-        }
+        attributes.put(attribute,value);
+    }
+
+    public int getAttribute(ATTRIBUTES attribute){
+        return attributes.containsKey(attribute) ? attributes.get(attribute) : 0;
+    }
+
+    public String getAttibuteString(ATTRIBUTES attribute){
+        int attr = getAttribute(attribute);
+        return attr==0 ? "" : attr+"";
     }
 
 }

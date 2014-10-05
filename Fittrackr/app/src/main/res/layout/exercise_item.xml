@@ -28,6 +28,7 @@
         android:maxLines="1"
         android:inputType="number"
         android:hint="0"
+        android:visibility="gone"
         android:background="@android:color/transparent"/>
 
     <EditText
@@ -41,6 +42,7 @@
         android:maxLines="1"
         android:inputType="number"
         android:hint="0"
+        android:visibility="gone"
         android:background="@android:color/transparent"/>
 
     <EditText
@@ -54,5 +56,50 @@
         android:maxLines="1"
         android:inputType="number"
         android:hint="0"
+        android:visibility="gone"
         android:background="@android:color/transparent"/>
+
+    <EditText
+        android:minWidth="64dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="75"
+        android:gravity="center"
+        android:id="@+id/timeTextView"
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:inputType="number"
+        android:hint="0"
+        android:visibility="gone"
+        android:background="@android:color/transparent"/>
+
+    <EditText
+        android:minWidth="64dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="75"
+        android:gravity="center"
+        android:id="@+id/distanceTextView"
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:inputType="number"
+        android:hint="0"
+        android:visibility="gone"
+        android:background="@android:color/transparent"/>
+
+    <EditText
+        android:minWidth="64dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="75"
+        android:gravity="center"
+        android:id="@+id/measurementTextView"
+        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:inputType="number"
+        android:hint="0"
+        android:visibility="gone"
+        android:background="@android:color/transparent"/>
+
+
 </LinearLayout>
