@@ -3,13 +3,13 @@ package globalindustryinc.fittrackr;
 /**
  * Created by jccline on 10/5/2014.
  */
-public class navDrawerItem {
+public class NavDrawerItem {
     private String mTitle;
     private int mIcon;
 
-    public navDrawerItem(){}
+    public NavDrawerItem(){}
 
-    public navDrawerItem(String title, int icon){
+    public NavDrawerItem(String title, int icon){
         this.mTitle = title;
         this.mIcon = icon;
     }
