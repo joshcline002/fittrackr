@@ -23,14 +23,13 @@ package globalindustryinc.fittrackr;
         import android.util.AttributeSet;
         import android.view.View;
         import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
         import android.widget.ListView;
 
 public class FragmentNavigationDrawer extends DrawerLayout {
     private ActionBarDrawerToggle drawerToggle;
     private ListView lvDrawer;
     private NavDrawerListAdapter drawerAdapter;
-    private ArrayList<navDrawerItem> navDrawerItems;
+    private ArrayList<NavDrawerItem> navDrawerItems;
     private ArrayList<FragmentNavItem> drawerNavItems;
     private int drawerContainerRes;
 
@@ -38,7 +37,7 @@ public class FragmentNavigationDrawer extends DrawerLayout {
     public void setupDrawerConfiguration(ListView drawerListView, int drawerItemRes, int drawerContainerRes) {
         // Setup navigation items array
         drawerNavItems = new ArrayList<FragmentNavigationDrawer.FragmentNavItem>();
-        navDrawerItems = new ArrayList<navDrawerItem>();
+        navDrawerItems = new ArrayList<NavDrawerItem>();
         this.drawerContainerRes = drawerContainerRes;
         // Setup drawer list view
         lvDrawer = drawerListView;
@@ -58,7 +57,7 @@ public class FragmentNavigationDrawer extends DrawerLayout {
     // addNavItem("First", R.drawable.ic_one, "First Fragment", FirstFragment.class)
     public void addNavItem(String navTitle, int icon, String windowTitle, Class<? extends Fragment> fragmentClass) {
         // adding nav drawer items to array
-        navDrawerItems.add(new navDrawerItem(navTitle, icon));
+        navDrawerItems.add(new NavDrawerItem(navTitle, icon));
         // Set the adapter for the list view
         drawerAdapter = new NavDrawerListAdapter(getActivity(), navDrawerItems);
         lvDrawer.setAdapter(drawerAdapter);
