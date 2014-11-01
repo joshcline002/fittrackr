@@ -37,8 +37,7 @@ public class MeasureFragment extends ExerciseFragment {
 
         // Reuse of create new ExerciseItemView
         ExerciseItemView itemView;
-        if(reusableView==null) itemView = new ExerciseItemView(parent.getContext());
-        else itemView = (ExerciseItemView) reusableView;
+        itemView = new ExerciseItemView(parent.getContext());
 
         Exercise exercise = (Exercise) adapter.getItem(position);
         // Set name
@@ -48,10 +47,7 @@ public class MeasureFragment extends ExerciseFragment {
         itemView.measurement.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.TIME));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
-        itemView.measurement.setTag(
-                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.REPS)
-        );
-        itemView.measurement.setOnEditorActionListener(adapter);
+        itemView.measurement.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.MEASUREMENT));
 
         // Set data items visibility to true
         itemView.measurement.setVisibility(View.VISIBLE);

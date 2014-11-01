@@ -41,8 +41,7 @@ public class CardioFragment extends ExerciseFragment{
 
         // Reuse of create new ExerciseItemView
         ExerciseItemView itemView;
-        if(reusableView==null) itemView = new ExerciseItemView(parent.getContext());
-        else itemView = (ExerciseItemView) reusableView;
+        itemView = new ExerciseItemView(parent.getContext());
 
         Exercise exercise = (Exercise) adapter.getItem(position);
         // Set name
@@ -53,15 +52,8 @@ public class CardioFragment extends ExerciseFragment{
         itemView.distance.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.DISTANCE));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
-        itemView.time.setTag(
-                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.REPS)
-        );
-        itemView.time.setOnEditorActionListener(adapter);
-
-        itemView.distance.setTag(
-                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.SETS)
-        );
-        itemView.distance.setOnEditorActionListener(adapter);
+        itemView.time.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.TIME));
+        itemView.distance.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.DISTANCE));
 
         // Set data items visibility to true
         itemView.time.setVisibility(View.VISIBLE);

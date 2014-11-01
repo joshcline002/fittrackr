@@ -25,6 +25,19 @@ public class Exercise {
         this.name = name;
     }
 
+    public static String getExerciseTypeString(EXERCISE_TYPE type){
+        switch (type){
+            case CARDIO:
+                return "Cardio";
+            case MEASURE:
+                return "Measure";
+            case LIFTING:
+                return "Lifting";
+            default:
+                return "";
+        }
+    }
+
     public void setValue(ATTRIBUTES attribute,int value){
         attributes.put(attribute,value);
     }

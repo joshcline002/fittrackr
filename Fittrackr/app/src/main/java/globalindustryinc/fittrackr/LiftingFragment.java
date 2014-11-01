@@ -46,8 +46,7 @@ public class LiftingFragment extends ExerciseFragment{
 
         // Reuse of create new ExerciseItemView
         ExerciseItemView itemView;
-        if(reusableView==null) itemView = new ExerciseItemView(parent.getContext());
-        else itemView = (ExerciseItemView) reusableView;
+        itemView = new ExerciseItemView(parent.getContext());
 
         Exercise exercise = (Exercise) adapter.getItem(position);
         // Set name
@@ -59,20 +58,9 @@ public class LiftingFragment extends ExerciseFragment{
         itemView.weight.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.WEIGHT));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
-        itemView.reps.setTag(
-                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.REPS)
-        );
-        itemView.reps.setOnEditorActionListener(adapter);
-
-        itemView.sets.setTag(
-                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.SETS)
-        );
-        itemView.sets.setOnEditorActionListener(adapter);
-
-        itemView.weight.setTag(
-                new Pair<Exercise,Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.WEIGHT)
-        );
-        itemView.weight.setOnEditorActionListener(adapter);
+        itemView.reps.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.REPS));
+        itemView.sets.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.SETS));
+        itemView.weight.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.WEIGHT));
 
         // Set data items visibility to true
         itemView.reps.setVisibility(View.VISIBLE);

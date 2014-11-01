@@ -18,9 +18,9 @@ public class FittrackrActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fittracker);
-        // Find our drawer view
+        // Find our drawer exercise
         dlDrawer = (NavigationDrawer) findViewById(R.id.drawer_layout);
-        // Setup drawer view
+        // Setup drawer exercise
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items

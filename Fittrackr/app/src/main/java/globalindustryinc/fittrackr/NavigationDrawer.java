@@ -39,7 +39,7 @@ public class NavigationDrawer extends DrawerLayout {
         drawerNavItems = new ArrayList<NavigationDrawer.FragmentNavItem>();
         navDrawerItems = new ArrayList<NavDrawerItem>();
         this.drawerContainerRes = drawerContainerRes;
-        // Setup drawer list view
+        // Setup drawer list exercise
         lvDrawer = drawerListView;
         // Setup item listener
         lvDrawer.setOnItemClickListener(new FragmentDrawerItemListener());
@@ -58,7 +58,7 @@ public class NavigationDrawer extends DrawerLayout {
     public void addNavItem(String navTitle, int icon, String windowTitle, Class<? extends Fragment> fragmentClass) {
         // adding nav drawer items to array
         navDrawerItems.add(new NavDrawerItem(navTitle, icon));
-        // Set the adapter for the list view
+        // Set the adapter for the list exercise
         drawerAdapter = new NavDrawerListAdapter(getActivity(), navDrawerItems);
         lvDrawer.setAdapter(drawerAdapter);
         drawerNavItems.add(new FragmentNavItem(windowTitle, fragmentClass));
@@ -76,7 +76,7 @@ public class NavigationDrawer extends DrawerLayout {
         super(context);
     }
 
-    /** Swaps fragments in the main content view */
+    /** Swaps fragments in the main content exercise */
     public void selectDrawerItem(int position) {
         // Create a new fragment and specify the planet to show based on
         // position

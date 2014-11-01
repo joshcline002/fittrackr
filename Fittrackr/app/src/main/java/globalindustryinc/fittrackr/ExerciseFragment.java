@@ -4,9 +4,8 @@ package globalindustryinc.fittrackr;
  * Created by jccline on 10/5/2014.
  */
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Pair;
+import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,9 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public abstract class ExerciseFragment extends android.support.v4.app.Fragment implements TextView.OnEditorActionListener {
 
@@ -56,7 +53,7 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     }
 
     private void fetchExerciseData() {
-        exercises = new LinkedList<Exercise>();
+        exercises = Database.retrieveExercises(getActivity(), getExerciseType());
     }
 
     private void setupLiftingInput() {
@@ -101,10 +98,11 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     }
 
     private void notifyDatabaseOfChangedExercise(){
+        Database.saveExercises(getActivity(),getExerciseType(),exercises);
         Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG).show();
     }
 
-    public class ExerciseListViewAdapter extends BaseAdapter implements TextView.OnEditorActionListener{
+    public class ExerciseListViewAdapter extends BaseAdapter {
 
         public int EXERCISE_KEY = 11;
         public int ATTRIBUTE_KEY = 22;
@@ -126,24 +124,41 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
 
         @Override
         public View getView(int position, View reusableView, ViewGroup parent) {
-            return ExerciseFragment.this.getView(position,reusableView,parent,this);
+            return ExerciseFragment.this.getView(position, reusableView, parent, this);
+        }
+
+        public TextWatcher getTextWatcher(Exercise view,Exercise.ATTRIBUTES attribute){
+            return new TextWatcher(view,attribute);
+        }
+
+    }
+
+    public class TextWatcher implements android.text.TextWatcher{
+
+        Exercise exercise;
+        Exercise.ATTRIBUTES attribute;
+
+        public TextWatcher(Exercise exercise,Exercise.ATTRIBUTES attribute){
+            this.exercise = exercise;
+            this.attribute = attribute;
         }
 
         @Override
-        public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-            if(EditorInfo.IME_ACTION_DONE==actionId){
-                try {
-                    int newValue = Integer.parseInt(textView.getText().toString());
-                    Pair<Exercise, Exercise.ATTRIBUTES> pair =
-                            (Pair<Exercise, Exercise.ATTRIBUTES>) textView.getTag();
-                    Exercise exercise = pair.first;
-                    exercise.setValue(pair.second, newValue);
-                    if (!changedExercises.contains(exercise)) changedExercises.add(exercise);
-                }catch(NumberFormatException e){
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {}
 
-                }
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {}
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            try {
+                int newValue = Integer.parseInt(editable.toString());
+                Exercise exercise = this.exercise;
+                exercise.setValue(attribute, newValue);
+                //if (!changedExercises.contains(exercise)) changedExercises.add(exercise);
+            }catch(NumberFormatException e){
+
             }
-            return false;
         }
     }
 

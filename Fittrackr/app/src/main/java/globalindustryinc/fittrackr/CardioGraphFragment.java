@@ -61,7 +61,7 @@ public class CardioGraphFragment extends Fragment {
         graphView.addSeries(seriesCos);
         graphView.addSeries(seriesSin);
         graphView.addSeries(seriesRnd);
-// optional - set view port, start=2, size=10
+// optional - set exercise port, start=2, size=10
         graphView.setViewPort(2, 10);
         graphView.setScalable(true);
 // optional - legend
