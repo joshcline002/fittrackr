@@ -18,13 +18,22 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
+import java.util.LinkedList;
+
 import static com.jjoe64.graphview.GraphView.GraphViewData;
 
 public class LiftingGraphFragment extends Fragment {
+
+    LinkedList<Exercise> exercises;
+    Exercise exercise;
+    int weight;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // first init data
+        exercises = Database.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.LIFTING);
+        weight = (int)exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT);
+
         int num = 150;
         GraphViewData[] data = new GraphViewData[num];
         double v=0;
