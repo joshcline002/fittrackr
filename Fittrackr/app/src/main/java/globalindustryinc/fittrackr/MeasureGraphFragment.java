@@ -20,7 +20,7 @@ import com.jjoe64.graphview.LineGraphView;
 
 import static com.jjoe64.graphview.GraphView.GraphViewData;
 
-public class LiftingGraph extends Fragment {
+public class MeasureGraphFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class LiftingGraph extends Fragment {
             v += 0.2;
             data[i] = new GraphViewData(i, Math.sin(v));
         }
-        GraphViewSeries seriesSin = new GraphViewSeries("Exercise3", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), data);
+        GraphViewSeries seriesSin = new GraphViewSeries("Measurement3", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), data);
 
         data = new GraphViewData[num];
         v=0;
@@ -40,7 +40,7 @@ public class LiftingGraph extends Fragment {
             v += 0.2;
             data[i] = new GraphViewData(i, Math.cos(v));
         }
-        GraphViewSeries seriesCos = new GraphViewSeries("Exercise2", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), data);
+        GraphViewSeries seriesCos = new GraphViewSeries("Measurement2", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), data);
 
         num = 1000;
         data = new GraphViewData[num];
@@ -49,14 +49,14 @@ public class LiftingGraph extends Fragment {
             v += 0.2;
             data[i] = new GraphViewData(i, Math.sin(Math.random()*v));
         }
-        GraphViewSeries seriesRnd = new GraphViewSeries("Exercise1", null, data);
+        GraphViewSeries seriesRnd = new GraphViewSeries("Measurement1", null, data);
 
 /*
  * create graph
  */
         GraphView graphView = new LineGraphView(
                 container.getContext()
-                , "Lifting Graph"
+                , "Measurements"
         );
 // add data
         graphView.addSeries(seriesCos);

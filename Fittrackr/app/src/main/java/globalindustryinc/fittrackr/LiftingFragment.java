@@ -13,7 +13,7 @@ import java.util.LinkedList;
  * Created by jccline on 10/5/2014.
  */
 
-public class Lifting extends ExerciseFragment{
+public class LiftingFragment extends ExerciseFragment{
 
     @Override
     Exercise.EXERCISE_TYPE getExerciseType() {

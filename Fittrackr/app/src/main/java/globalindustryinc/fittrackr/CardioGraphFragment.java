@@ -20,10 +20,9 @@ import com.jjoe64.graphview.LineGraphView;
 
 import static com.jjoe64.graphview.GraphView.GraphViewData;
 
-public class MeasureGraph extends Fragment {
+public class CardioGraphFragment extends Fragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // first init data
         int num = 150;
         GraphViewData[] data = new GraphViewData[num];
@@ -32,7 +31,7 @@ public class MeasureGraph extends Fragment {
             v += 0.2;
             data[i] = new GraphViewData(i, Math.sin(v));
         }
-        GraphViewSeries seriesSin = new GraphViewSeries("Measurement3", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), data);
+        GraphViewSeries seriesSin = new GraphViewSeries("Cardio3", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), data);
 
         data = new GraphViewData[num];
         v=0;
@@ -40,7 +39,7 @@ public class MeasureGraph extends Fragment {
             v += 0.2;
             data[i] = new GraphViewData(i, Math.cos(v));
         }
-        GraphViewSeries seriesCos = new GraphViewSeries("Measurement2", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), data);
+        GraphViewSeries seriesCos = new GraphViewSeries("Cardio2", new GraphViewSeries.GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), data);
 
         num = 1000;
         data = new GraphViewData[num];
@@ -49,14 +48,14 @@ public class MeasureGraph extends Fragment {
             v += 0.2;
             data[i] = new GraphViewData(i, Math.sin(Math.random()*v));
         }
-        GraphViewSeries seriesRnd = new GraphViewSeries("Measurement1", null, data);
+        GraphViewSeries seriesRnd = new GraphViewSeries("Cardio1", null, data);
 
 /*
  * create graph
  */
         GraphView graphView = new LineGraphView(
                 container.getContext()
-                , "Measurements"
+                , "Cardio Graph"
         );
 // add data
         graphView.addSeries(seriesCos);

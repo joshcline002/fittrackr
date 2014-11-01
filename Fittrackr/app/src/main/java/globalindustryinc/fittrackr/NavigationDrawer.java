@@ -25,7 +25,7 @@ package globalindustryinc.fittrackr;
         import android.widget.AdapterView;
         import android.widget.ListView;
 
-public class FragmentNavigationDrawer extends DrawerLayout {
+public class NavigationDrawer extends DrawerLayout {
     private ActionBarDrawerToggle drawerToggle;
     private ListView lvDrawer;
     private NavDrawerListAdapter drawerAdapter;
@@ -36,7 +36,7 @@ public class FragmentNavigationDrawer extends DrawerLayout {
     // setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer), R.layout.drawer_list_item, R.id.flContent);
     public void setupDrawerConfiguration(ListView drawerListView, int drawerItemRes, int drawerContainerRes) {
         // Setup navigation items array
-        drawerNavItems = new ArrayList<FragmentNavigationDrawer.FragmentNavItem>();
+        drawerNavItems = new ArrayList<NavigationDrawer.FragmentNavItem>();
         navDrawerItems = new ArrayList<NavDrawerItem>();
         this.drawerContainerRes = drawerContainerRes;
         // Setup drawer list view
@@ -64,15 +64,15 @@ public class FragmentNavigationDrawer extends DrawerLayout {
         drawerNavItems.add(new FragmentNavItem(windowTitle, fragmentClass));
     }
 
-    public FragmentNavigationDrawer(Context context, AttributeSet attrs, int defStyle) {
+    public NavigationDrawer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public FragmentNavigationDrawer(Context context, AttributeSet attrs) {
+    public NavigationDrawer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FragmentNavigationDrawer(Context context) {
+    public NavigationDrawer(Context context) {
         super(context);
     }
 

@@ -132,12 +132,16 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
         @Override
         public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
             if(EditorInfo.IME_ACTION_DONE==actionId){
-                int newValue = Integer.parseInt(textView.getText().toString());
-                Pair<Exercise,Exercise.ATTRIBUTES> pair =
-                        (Pair<Exercise, Exercise.ATTRIBUTES>) textView.getTag();
-                Exercise exercise = pair.first;
-                exercise.setValue(pair.second, newValue);
-                if(!changedExercises.contains(exercise)) changedExercises.add(exercise);
+                try {
+                    int newValue = Integer.parseInt(textView.getText().toString());
+                    Pair<Exercise, Exercise.ATTRIBUTES> pair =
+                            (Pair<Exercise, Exercise.ATTRIBUTES>) textView.getTag();
+                    Exercise exercise = pair.first;
+                    exercise.setValue(pair.second, newValue);
+                    if (!changedExercises.contains(exercise)) changedExercises.add(exercise);
+                }catch(NumberFormatException e){
+
+                }
             }
             return false;
         }

@@ -11,25 +11,25 @@ import android.widget.ListView;
 /**
  * Created by jccline on 10/5/2014.
  */
-public class Fittrackr extends FragmentActivity {
-    private FragmentNavigationDrawer dlDrawer;
+public class FittrackrActivity extends FragmentActivity {
+    private NavigationDrawer dlDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fittracker);
         // Find our drawer view
-        dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawer_layout);
+        dlDrawer = (NavigationDrawer) findViewById(R.id.drawer_layout);
         // Setup drawer view
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
-        dlDrawer.addNavItem("Lifting",R.drawable.lifting,"Lifting", Lifting.class);
-        dlDrawer.addNavItem("Cardio",R.drawable.running, "Cardio", Cardio.class);
-        dlDrawer.addNavItem("Measure",R.drawable.measure, "Measurements", Measure.class);
-        dlDrawer.addNavItem("LiftingGraph",R.drawable.lifting,"LiftingGraph", LiftingGraph.class);
-        dlDrawer.addNavItem("CardioGraph",R.drawable.running, "CardioGraph", CardioGraph.class);
-        dlDrawer.addNavItem("MeasureGraph",R.drawable.measure, "MeasurementsGraphs", MeasureGraph.class);
+        dlDrawer.addNavItem("Lifting",R.drawable.lifting,"Lifting", LiftingFragment.class);
+        dlDrawer.addNavItem("Cardio",R.drawable.running, "Cardio", CardioFragment.class);
+        dlDrawer.addNavItem("Measure",R.drawable.measure, "Measurements", MeasureFragment.class);
+        dlDrawer.addNavItem("LiftingGraph",R.drawable.lifting,"LiftingGraph", LiftingGraphFragment.class);
+        dlDrawer.addNavItem("CardioGraph",R.drawable.running, "CardioGraph", CardioGraphFragment.class);
+        dlDrawer.addNavItem("MeasureGraph",R.drawable.measure, "MeasurementsGraphs", MeasureGraphFragment.class);
         // Select default
         if (savedInstanceState == null) {
             dlDrawer.selectDrawerItem(0);

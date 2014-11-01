@@ -11,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Measure extends ExerciseFragment {
+public class CardioFragment extends ExerciseFragment{
+
     @Override
     Exercise.EXERCISE_TYPE getExerciseType() {
-        return Exercise.EXERCISE_TYPE.MEASURE;
+        return Exercise.EXERCISE_TYPE.CARDIO;
     }
 
     @Override
@@ -22,12 +23,15 @@ public class Measure extends ExerciseFragment {
         ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
         header.exerciseName.setText("Exercise");
-        header.measurement.setText("Measurement");
+        header.time.setText("Time");
+        header.distance.setText("Distance");
 
         header.exerciseName.setTypeface(null, Typeface.BOLD);
-        header.measurement.setTypeface(null, Typeface.BOLD);
+        header.time.setTypeface(null, Typeface.BOLD);
+        header.distance.setTypeface(null, Typeface.BOLD);
 
-        header.measurement.setVisibility(View.VISIBLE);
+        header.time.setVisibility(View.VISIBLE);
+        header.distance.setVisibility(View.VISIBLE);
 
         return header;
     }
@@ -45,17 +49,25 @@ public class Measure extends ExerciseFragment {
         itemView.exerciseName.setText(exercise.name);
 
         // Fill ExerciseItemView with the appropriate data
-        itemView.measurement.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.TIME));
+        itemView.time.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.TIME));
+        itemView.distance.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.DISTANCE));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
-        itemView.measurement.setTag(
+        itemView.time.setTag(
                 new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.REPS)
         );
-        itemView.measurement.setOnEditorActionListener(adapter);
+        itemView.time.setOnEditorActionListener(adapter);
+
+        itemView.distance.setTag(
+                new Pair<Exercise, Exercise.ATTRIBUTES>(exercise, Exercise.ATTRIBUTES.SETS)
+        );
+        itemView.distance.setOnEditorActionListener(adapter);
 
         // Set data items visibility to true
-        itemView.measurement.setVisibility(View.VISIBLE);
+        itemView.time.setVisibility(View.VISIBLE);
+        itemView.distance.setVisibility(View.VISIBLE);
 
         return itemView;
     }
+
 }
