@@ -23,6 +23,7 @@ public class Database {
         LinkedList<Exercise> exercises = new LinkedList<Exercise>();
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
+            Log.d("ArrayLength",String.valueOf(jsonArray.length()));
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject exerciseObject = jsonArray.getJSONObject(i);
                 Log.d("exercise",exerciseObject.toString());

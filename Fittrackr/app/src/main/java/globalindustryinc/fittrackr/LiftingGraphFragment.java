@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +25,27 @@ import static com.jjoe64.graphview.GraphView.GraphViewData;
 
 public class LiftingGraphFragment extends Fragment {
 
-    LinkedList<Exercise> exercises;
-    Exercise exercise;
-    int weight;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // first init data
+        LinkedList<Exercise> exercises;
+        Exercise exercise;
+        int f = 0;
+
         exercises = Database.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.LIFTING);
-        weight = (int)exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT);
+        int size = exercises.size();
+        int[] weight = new int[size];
+        int[] names = new int[size];
+        Log.d("size", String.valueOf(size));
+        while(f<exercises.size()) {
+            exercise = exercises.get(f);
+            weight[f] = exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT);
+            names[f] = exercise.getAttribute(Exercise.ATTRIBUTES.);
+            Log.d("weight", String.valueOf(weight[f]));
+            Log.d("Name", String.valueOf(names[f]));
+            f++;
+        }
 
         int num = 150;
         GraphViewData[] data = new GraphViewData[num];
