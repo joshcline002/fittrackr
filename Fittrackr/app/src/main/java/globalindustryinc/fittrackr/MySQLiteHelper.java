@@ -34,23 +34,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Creation sql statement
-    private static final String CREATE_TABLE_LIFTING = "CREATE TABLE"
-            + TABLE_LIFTING + "(" + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_EXERCISE + "STRING,"
-            + COLUMN_REPS + "INTEGER,"
-            + COLUMN_SETS + "INTEGER,"
-            + COLUMN_WEIGHT + "INTEGER);";
+    private static final String CREATE_TABLE_LIFTING = "CREATE TABLE "
+            + TABLE_LIFTING + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_EXERCISE + " TEXT,"
+            + COLUMN_REPS + " INTEGER,"
+            + COLUMN_SETS + " INTEGER,"
+            + COLUMN_WEIGHT + " INTEGER)";
 
-    private static final String CREATE_TABLE_CARDIO =  "CREATE TABLE"
-            + TABLE_CARDIO + "(" + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_EXERCISE + "STRING,"
-            + COLUMN_TIME + "INTEGER,"
-            + COLUMN_DISTANCE + "INTEGER);";
+    private static final String CREATE_TABLE_CARDIO =  "CREATE TABLE "
+            + TABLE_CARDIO + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_EXERCISE + " TEXT,"
+            + COLUMN_TIME + " INTEGER,"
+            + COLUMN_DISTANCE + " INTEGER)";
 
-    private static final String CREATE_TABLE_MEASUREMENT = "CREATE TABLE"
-            + TABLE_MEASURE + "(" + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_EXERCISE + "STRING,"
-            + COLUMN_MEASUREMENT + "INT);";
+    private static final String CREATE_TABLE_MEASUREMENT = "CREATE TABLE "
+            + TABLE_MEASURE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_EXERCISE + " TEXT,"
+            + COLUMN_MEASUREMENT + " INTEGER)";
 
     public MySQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -83,10 +83,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
             if(exerciseType == Exercise.EXERCISE_TYPE.LIFTING) {
                 values.put(COLUMN_EXERCISE, exercise.getAttribute(Exercise.ATTRIBUTES.NAME));
+                Log.d("exercise",exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
                 values.put(COLUMN_REPS, exercise.getAttribute(Exercise.ATTRIBUTES.REPS));
+                Log.d("reps",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.REPS)));
                 values.put(COLUMN_SETS, exercise.getAttribute(Exercise.ATTRIBUTES.SETS));
+                Log.d("sets",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.SETS)));
                 values.put(COLUMN_WEIGHT, exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT));
-
+                Log.d("weight",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
 
                 db.insert(TABLE_LIFTING, null, values);
 
@@ -109,8 +112,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public LinkedList<Exercise> getAllLifting(){
         LinkedList<Exercise> exercises = new LinkedList<Exercise>();
-        String selectQuery = "SELECT * FROM " + TABLE_LIFTING;
-
+        String selectQuery = "SELECT  * FROM " + TABLE_LIFTING;
+        Log.d("selectQuery", selectQuery);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -125,8 +128,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 // adding to exercises list
                 exercises.add(exercise);
 
+                Log.d("exercise",exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
+                Log.d("reps",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.REPS)));
+                Log.d("sets",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.SETS)));
+                Log.d("weight",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
             } while (c.moveToNext());
         }
+
         return exercises;
     }
 

@@ -31,12 +31,17 @@ public class LiftingGraphFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // first init data
+        db = new MySQLiteHelper(getActivity());
         LinkedList<Exercise> exercises;
         int f = 0;
         exercises = db.getAllLifting();
-        for (Exercise exercise : exercises) {
-            Log.d("Name",exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
-            Log.d("Weight",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
+        if(exercises != null) {
+            for (Exercise exercise : exercises) {
+                Log.d("Name", exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
+                Log.d("Weight", String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
+            }
+        }else {
+            Log.d("NULL","NULL");
         }
 
         int num = 150;
