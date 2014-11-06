@@ -49,37 +49,38 @@ public class Database {
     }
 
     public static void saveExercises(Context context, Exercise.EXERCISE_TYPE exerciseType, LinkedList<Exercise> exercises) {
-        JSONArray jsonArray = new JSONArray();
-        // Create the json object representing exercise
-        for(Exercise exercise : exercises){
-            JSONObject exerciseObject = new JSONObject();
-            try {
-                switch (exerciseType) {
-                    case CARDIO:
-                        exerciseObject.put("time", exercise.getAttribute(Exercise.ATTRIBUTES.TIME));
-                        exerciseObject.put("distance", exercise.getAttribute(Exercise.ATTRIBUTES.DISTANCE));
-                        break;
-                    case MEASURE:
-                        exerciseObject.put("measurement", exercise.getAttribute(Exercise.ATTRIBUTES.MEASUREMENT));
-                        break;
-                    case LIFTING:
-                        exerciseObject.put("reps", exercise.getAttribute(Exercise.ATTRIBUTES.REPS));
-                        exerciseObject.put("sets", exercise.getAttribute(Exercise.ATTRIBUTES.SETS));
-                        exerciseObject.put("weight", exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT));
-                        break;
+         // Create the json object representing exercise
+            JSONArray jsonArray = new JSONArray();
+            for (Exercise exercise : exercises) {
+                JSONObject exerciseObject = new JSONObject();
+                try {
+                    switch (exerciseType) {
+                        case CARDIO:
+                            exerciseObject.put("time", exercise.getAttribute(Exercise.ATTRIBUTES.TIME));
+                            exerciseObject.put("distance", exercise.getAttribute(Exercise.ATTRIBUTES.DISTANCE));
+                            break;
+                        case MEASURE:
+                            exerciseObject.put("measurement", exercise.getAttribute(Exercise.ATTRIBUTES.MEASUREMENT));
+                            break;
+                        case LIFTING:
+                            exerciseObject.put("reps", exercise.getAttribute(Exercise.ATTRIBUTES.REPS));
+                            exerciseObject.put("sets", exercise.getAttribute(Exercise.ATTRIBUTES.SETS));
+                            exerciseObject.put("weight", exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT));
+                            break;
+                    }
+                    exerciseObject.put("name", exercise.name);
+                    Log.d("adding", exerciseObject.toString());
+                } catch (JSONException e) {
                 }
-                exerciseObject.put("name",exercise.name);
-                Log.d("adding",exerciseObject.toString());
-            }catch (JSONException e) { }
 
-            jsonArray.put(exerciseObject);
+                jsonArray.put(exerciseObject);
+            }
+            // Add json array to the database
+            getSharedPrefs(context)
+                    .edit()
+                    .putString(Exercise.getExerciseTypeString(exerciseType), jsonArray.toString())
+                    .commit();
         }
-        // Add json array to the database
-        getSharedPrefs(context)
-                .edit()
-                .putString(Exercise.getExerciseTypeString(exerciseType),jsonArray.toString())
-                .commit();
-    }
 
     private static SharedPreferences getSharedPrefs(Context context){
         return context.getSharedPreferences(EXERCISE_PREFERENCES,Context.MODE_PRIVATE);

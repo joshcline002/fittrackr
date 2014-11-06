@@ -25,26 +25,18 @@ import static com.jjoe64.graphview.GraphView.GraphViewData;
 
 public class LiftingGraphFragment extends Fragment {
 
+    MySQLiteHelper db;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // first init data
         LinkedList<Exercise> exercises;
-        Exercise exercise;
         int f = 0;
-
-        exercises = Database.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.LIFTING);
-        int size = exercises.size();
-        int[] weight = new int[size];
-        int[] names = new int[size];
-        Log.d("size", String.valueOf(size));
-        while(f<exercises.size()) {
-            exercise = exercises.get(f);
-            weight[f] = exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT);
-            names[f] = exercise.getAttribute(Exercise.ATTRIBUTES.);
-            Log.d("weight", String.valueOf(weight[f]));
-            Log.d("Name", String.valueOf(names[f]));
-            f++;
+        exercises = db.getAllLifting();
+        for (Exercise exercise : exercises) {
+            Log.d("Name",exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
+            Log.d("Weight",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
         }
 
         int num = 150;

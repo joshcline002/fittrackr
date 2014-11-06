@@ -30,6 +30,7 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     ListView exerciseListView;
     LinkedList<Exercise> exercises;
     LinkedList<Exercise> changedExercises = new LinkedList<Exercise>();
+    MySQLiteHelper db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +50,7 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
         setupLiftingListView();
 
         setHasOptionsMenu(true);
+        db = new MySQLiteHelper(getActivity());
         return rootView;
     }
 
@@ -98,6 +100,7 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     }
 
     private void notifyDatabaseOfChangedExercise(){
+        db.createExercise(getExerciseType(),exercises);
         Database.saveExercises(getActivity(),getExerciseType(),exercises);
         Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG).show();
     }
