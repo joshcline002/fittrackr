@@ -82,26 +82,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
 
             if(exerciseType == Exercise.EXERCISE_TYPE.LIFTING) {
-                values.put(COLUMN_EXERCISE, exercise.getAttribute(Exercise.ATTRIBUTES.NAME));
-                Log.d("exercise",exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
+                values.put(COLUMN_EXERCISE, exercise.name);
                 values.put(COLUMN_REPS, exercise.getAttribute(Exercise.ATTRIBUTES.REPS));
-                Log.d("reps",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.REPS)));
                 values.put(COLUMN_SETS, exercise.getAttribute(Exercise.ATTRIBUTES.SETS));
-                Log.d("sets",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.SETS)));
                 values.put(COLUMN_WEIGHT, exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT));
-                Log.d("weight",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
 
                 db.insert(TABLE_LIFTING, null, values);
 
             } else if (exerciseType == Exercise.EXERCISE_TYPE.CARDIO){
-                values.put(COLUMN_EXERCISE, exercise.getAttribute(Exercise.ATTRIBUTES.NAME));
+                values.put(COLUMN_EXERCISE, exercise.name);
                 values.put(COLUMN_DISTANCE, exercise.getAttribute(Exercise.ATTRIBUTES.DISTANCE));
                 values.put(COLUMN_TIME, exercise.getAttribute(Exercise.ATTRIBUTES.TIME));
 
                 db.insert(TABLE_CARDIO, null, values);
 
             } else if (exerciseType == Exercise.EXERCISE_TYPE.MEASURE){
-                values.put(COLUMN_EXERCISE, exercise.getAttribute(Exercise.ATTRIBUTES.NAME));
+                values.put(COLUMN_EXERCISE, exercise.name);
                 values.put(COLUMN_MEASUREMENT, exercise.getAttribute(Exercise.ATTRIBUTES.MEASUREMENT));
 
                 db.insert(TABLE_MEASURE, null, values);
@@ -110,32 +106,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public LinkedList<Exercise> getAllLifting(){
-        LinkedList<Exercise> exercises = new LinkedList<Exercise>();
-        String selectQuery = "SELECT  * FROM " + TABLE_LIFTING;
-        Log.d("selectQuery", selectQuery);
+    public int[] getAllLifting(String name){
+        String selectQuery = "SELECT  * FROM " + TABLE_LIFTING + " WHERE EXERCISE = '" + name + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-
+        int size = c.getCount();
+        int[] weight = new int[size];
+        int i =0;
         //
         if (c.moveToFirst()){
             do{
-                Exercise exercise = new Exercise(Exercise.EXERCISE_TYPE.LIFTING, c.getString((c.getColumnIndex(COLUMN_EXERCISE))));
-                exercise.setValue(Exercise.ATTRIBUTES.REPS,c.getInt(c.getColumnIndex(COLUMN_REPS)));
-                exercise.setValue(Exercise.ATTRIBUTES.SETS,c.getInt(c.getColumnIndex(COLUMN_SETS)));
-                exercise.setValue(Exercise.ATTRIBUTES.WEIGHT,c.getInt(c.getColumnIndex(COLUMN_WEIGHT)));
-
-                // adding to exercises list
-                exercises.add(exercise);
-
-                Log.d("exercise",exercise.getAttibuteString(Exercise.ATTRIBUTES.NAME));
-                Log.d("reps",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.REPS)));
-                Log.d("sets",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.SETS)));
-                Log.d("weight",String.valueOf(exercise.getAttribute(Exercise.ATTRIBUTES.WEIGHT)));
+                weight[i] = c.getInt(c.getColumnIndex(COLUMN_WEIGHT));
+                i++;
             } while (c.moveToNext());
         }
 
-        return exercises;
+        return weight;
     }
 
 
