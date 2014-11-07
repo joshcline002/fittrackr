@@ -160,5 +160,19 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return mph;
     }
 
+    public void updateName(String oldName, String newName, Exercise.EXERCISE_TYPE exerciseType){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = null;
+        if(exerciseType == Exercise.EXERCISE_TYPE.LIFTING){
+            selectQuery = "UPDATE " + TABLE_LIFTING + " SET " + COLUMN_EXERCISE + "='" + newName + "'" + " WHERE EXERCISE = '" + oldName + "'";
+        } else if(exerciseType == Exercise.EXERCISE_TYPE.CARDIO){
+            selectQuery = "UPDATE " + TABLE_CARDIO + " SET " + COLUMN_EXERCISE + "='" + newName + "'" + " WHERE EXERCISE = '" + oldName + "'";
+        } else if(exerciseType == Exercise.EXERCISE_TYPE.MEASURE){
+            selectQuery = "UPDATE " + TABLE_MEASURE + " SET " + COLUMN_EXERCISE + "='" + newName + "'" + " WHERE EXERCISE = '" + oldName + "'";
+        }
+        Cursor c = db.rawQuery(selectQuery, null);
+        c.moveToFirst();
+        c.close();
+    }
 
 }

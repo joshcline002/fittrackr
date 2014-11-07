@@ -37,6 +37,7 @@ public class MeasureGraphFragment extends Fragment {
         GraphViewData[] data;
 
         exercises = Database.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.MEASURE);
+
         int size = exercises.size();
         String[] names = new String[size];
         for(Exercise exercise : exercises) {
