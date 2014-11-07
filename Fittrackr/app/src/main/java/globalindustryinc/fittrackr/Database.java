@@ -2,7 +2,6 @@ package globalindustryinc.fittrackr;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.json.JSONArray;

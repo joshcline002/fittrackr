@@ -6,14 +6,9 @@ package globalindustryinc.fittrackr;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -33,8 +28,6 @@ public class CardioGraphFragment extends Fragment {
         db = new MySQLiteHelper(getActivity());
         LinkedList<Exercise> exercises;
         int f = 0;
-        int start = 0;
-        int end = 1;
         int max =0;
         int min =100;
         GraphView graphView = new LineGraphView(
@@ -52,7 +45,6 @@ public class CardioGraphFragment extends Fragment {
         }
         for (f =0; f<size; f++) {
             double[] mph = db.getMPHCardio(names[f]);
-            Log.d("name", names[f]);
             for (int i = 0; i < mph.length; i++) {
                 if (max < mph[i]){
                     max = (int)mph[i];
@@ -61,18 +53,11 @@ public class CardioGraphFragment extends Fragment {
                     min = (int)mph[i];
                 }
             }
-            if(start < (mph.length-10)){
-                start = mph.length-10;
-            }  else {
-                if(end<mph.length-1) {
-                    end = mph.length - 1;
-                }
-            }
 
             data = new GraphViewData[mph.length];
 
             for (int i = 0; i < mph.length; i++) {
-                data[i] = new GraphViewData(i, mph[i]);
+                data[i] = new GraphViewData(i+1, mph[i]);
             }
             GraphViewSeries lifting = new GraphViewSeries(names[f], new GraphViewSeries.GraphViewSeriesStyle(Color.rgb((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)), size), data);
             graphView.addSeries(lifting);
@@ -80,19 +65,7 @@ public class CardioGraphFragment extends Fragment {
 
 // optional - set exercise port, start=2, size=10
 
-        String[] labelX = new String[start+10];
-        String[] labelY = new String[max/10];
-        for (int i =0; i<start+10; i ++){
-            labelX[i] = String.valueOf(i);
-        }
-
-        for (int i=0; i<(max/10); i++){
-            labelY[((max/10)-1)-i] = String.valueOf(10*i);
-        }
-        if(start > 0){
-            end = 10;
-        }
-        graphView.setViewPort(start, end);
+        graphView.setViewPort(1, 10);
         graphView.setScalable(true);
 // optional - legend
         graphView.setShowLegend(true);

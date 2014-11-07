@@ -21,7 +21,7 @@ public class MeasureFragment extends ExerciseFragment {
     ExerciseItemView generateHeader() {
         ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
-        header.exerciseName.setText("Exercise");
+        header.exerciseName.setText("Name");
         header.measurement.setText("Measurement");
 
         header.exerciseName.setTypeface(null, Typeface.BOLD);

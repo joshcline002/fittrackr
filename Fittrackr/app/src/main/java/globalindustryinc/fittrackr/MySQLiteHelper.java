@@ -120,7 +120,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 i++;
             } while (c.moveToNext());
         }
-        //c.close();
+        c.close();
         return weight;
     }
 
@@ -138,7 +138,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 i++;
             } while (c.moveToNext());
         }
-        //c.close();
+        c.close();
         return measure;
     }
 
@@ -156,7 +156,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 i++;
             } while (c.moveToNext());
         }
-        //c.close();
+        c.close();
         return mph;
     }
 

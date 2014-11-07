@@ -23,7 +23,7 @@ public class CardioFragment extends ExerciseFragment{
         ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
         header.exerciseName.setText("Exercise");
-        header.time.setText("Time");
+        header.time.setText("Mins");
         header.distance.setText("Distance");
 
         header.exerciseName.setTypeface(null, Typeface.BOLD);
