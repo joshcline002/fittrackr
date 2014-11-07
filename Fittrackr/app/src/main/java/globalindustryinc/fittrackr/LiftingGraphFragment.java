@@ -34,7 +34,7 @@ public class LiftingGraphFragment extends Fragment {
         LinkedList<Exercise> exercises;
         int f = 0;
         int start = 0;
-        int end = 10;
+        int end = 1;
         int max =0;
         int min =100;
         GraphView graphView = new LineGraphView(
@@ -51,7 +51,7 @@ public class LiftingGraphFragment extends Fragment {
                     f++;
                 }
         for (f =0; f<size; f++) {
-            int[] weight = db.getAllLifting(names[f]);
+            int[] weight = db.getWeightLifting(names[f]);
             Log.d("name", names[f]);
             for (int i = 0; i < weight.length; i++) {
                 if (max < weight[i]){
@@ -64,7 +64,9 @@ public class LiftingGraphFragment extends Fragment {
             if(start < (weight.length-10)){
                 start = weight.length-10;
             }  else {
-                end = weight.length-1;
+                if(end<weight.length-1) {
+                    end = weight.length - 1;
+                }
             }
 
             data = new GraphViewData[weight.length];

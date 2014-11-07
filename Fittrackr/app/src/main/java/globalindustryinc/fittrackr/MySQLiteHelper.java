@@ -106,8 +106,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public int[] getAllLifting(String name){
-        String selectQuery = "SELECT  * FROM " + TABLE_LIFTING + " WHERE EXERCISE = '" + name + "'";
+    public int[] getWeightLifting(String name){
+        String selectQuery = "SELECT  " + COLUMN_WEIGHT + " FROM " + TABLE_LIFTING + " WHERE EXERCISE = '" + name + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         int size = c.getCount();
@@ -120,8 +120,44 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 i++;
             } while (c.moveToNext());
         }
-
+        //c.close();
         return weight;
+    }
+
+    public int[] getAllMeasure(String name){
+        String selectQuery = "SELECT  " + COLUMN_MEASUREMENT + " FROM " + TABLE_MEASURE + " WHERE EXERCISE = '" + name + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        int size = c.getCount();
+        int[] measure = new int[size];
+        int i =0;
+        //
+        if (c.moveToFirst()){
+            do{
+                measure[i] = c.getInt(c.getColumnIndex(COLUMN_MEASUREMENT));
+                i++;
+            } while (c.moveToNext());
+        }
+        //c.close();
+        return measure;
+    }
+
+    public double[] getMPHCardio(String name){
+        String selectQuery = "SELECT " + COLUMN_DISTANCE + ", " + COLUMN_TIME + " FROM " + TABLE_CARDIO + " WHERE EXERCISE = '" + name + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        int size = c.getCount();
+        double[] mph = new double[size];
+        int i =0;
+        //
+        if (c.moveToFirst()){
+            do{
+                mph[i] = (double)(c.getInt(c.getColumnIndex(COLUMN_DISTANCE)))/(((double)(c.getInt(c.getColumnIndex(COLUMN_TIME))))/60.0);
+                i++;
+            } while (c.moveToNext());
+        }
+        //c.close();
+        return mph;
     }
 
 
