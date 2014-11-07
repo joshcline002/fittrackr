@@ -29,8 +29,9 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     EditText exerciseInput;
     ListView exerciseListView;
     LinkedList<Exercise> exercises;
-    LinkedList<Exercise> changedExercises = new LinkedList<Exercise>();
     MySQLiteHelper db;
+    LinkedList<Exercise> sqlExercises = new LinkedList<Exercise>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,7 +101,9 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     }
 
     private void notifyDatabaseOfChangedExercise(){
-        db.createExercise(getExerciseType(),exercises);
+
+        db.createExercise(getExerciseType(),sqlExercises);
+        sqlExercises.clear();
         Database.saveExercises(getActivity(),getExerciseType(),exercises);
         Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG).show();
     }
@@ -158,6 +161,9 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
                 int newValue = Integer.parseInt(editable.toString());
                 Exercise exercise = this.exercise;
                 exercise.setValue(attribute, newValue);
+                if(!(sqlExercises.contains(exercise))) {
+                    sqlExercises.add(exercise);
+                }
                 //if (!changedExercises.contains(exercise)) changedExercises.add(exercise);
             }catch(NumberFormatException e){
 
