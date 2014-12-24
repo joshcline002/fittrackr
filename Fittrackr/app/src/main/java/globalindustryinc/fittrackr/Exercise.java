@@ -20,7 +20,7 @@ public class Exercise {
     HashMap<ATTRIBUTES,Integer> attributes;
 
     public Exercise(EXERCISE_TYPE type,String name){
-        attributes = new HashMap<ATTRIBUTES, Integer>();
+        attributes = new HashMap<>();
         this.type = type;
         this.name = name;
     }

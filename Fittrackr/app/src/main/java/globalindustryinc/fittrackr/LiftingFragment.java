@@ -25,15 +25,18 @@ public class LiftingFragment extends ExerciseFragment{
         ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
         header.exerciseName.setText("Exercise");
+        header.save.setText("Save");
         header.reps.setText("Reps");
         header.sets.setText("Sets");
         header.weight.setText("Weight");
 
         header.exerciseName.setTypeface(null, Typeface.BOLD);
+        header.save.setTypeface(null, Typeface.BOLD);
         header.reps.setTypeface(null, Typeface.BOLD);
         header.sets.setTypeface(null, Typeface.BOLD);
         header.weight.setTypeface(null, Typeface.BOLD);
 
+        header.save.setVisibility(View.VISIBLE);
         header.reps.setVisibility(View.VISIBLE);
         header.sets.setVisibility(View.VISIBLE);
         header.weight.setVisibility(View.VISIBLE);
@@ -58,11 +61,13 @@ public class LiftingFragment extends ExerciseFragment{
         itemView.weight.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.WEIGHT));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
+        itemView.checkbox.setOnClickListener(adapter.getCheckBox(exercise));
         itemView.reps.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.REPS));
         itemView.sets.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.SETS));
         itemView.weight.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.WEIGHT));
 
         // Set data items visibility to true
+        itemView.checkbox.setVisibility(View.VISIBLE);
         itemView.reps.setVisibility(View.VISIBLE);
         itemView.sets.setVisibility(View.VISIBLE);
         itemView.weight.setVisibility(View.VISIBLE);

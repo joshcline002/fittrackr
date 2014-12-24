@@ -91,6 +91,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
             } else if (exerciseType == Exercise.EXERCISE_TYPE.CARDIO){
                 values.put(COLUMN_EXERCISE, exercise.name);
+                Log.d("exercise", exercise.name);
                 values.put(COLUMN_DISTANCE, exercise.getAttribute(Exercise.ATTRIBUTES.DISTANCE));
                 values.put(COLUMN_TIME, exercise.getAttribute(Exercise.ATTRIBUTES.TIME));
 

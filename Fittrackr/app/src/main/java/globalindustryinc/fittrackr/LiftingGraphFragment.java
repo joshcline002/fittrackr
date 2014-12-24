@@ -36,7 +36,7 @@ public class LiftingGraphFragment extends Fragment {
         );
         GraphViewData[] data;
 
-                exercises = Database.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.LIFTING);
+                exercises = SharedPref.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.LIFTING);
                 int size = exercises.size();
                 String[] names = new String[size];
                 for(Exercise exercise : exercises) {

@@ -23,6 +23,8 @@ public class ExerciseItemView extends LinearLayout{
     public TextView time;
     public TextView distance;
     public TextView measurement;
+    public TextView save;
+    public TextView checkbox;
 
     public ExerciseItemView(Context context){
         super(context);
@@ -37,6 +39,8 @@ public class ExerciseItemView extends LinearLayout{
     private void sharedConstructor(){
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.exercise_item,this,true);
         exerciseName = (TextView) findViewById(R.id.exerciseNameTextView);
+        save = (TextView) findViewById(R.id.save);
+        checkbox = (TextView) findViewById(R.id.checkbox);
         reps = (TextView) findViewById(R.id.repsTextView);
         sets = (TextView) findViewById(R.id.setsTextView);
         weight = (TextView) findViewById(R.id.weightTextView);

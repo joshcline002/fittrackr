@@ -5,11 +5,9 @@ package globalindustryinc.fittrackr;
  */
 
 import android.graphics.Typeface;
-import android.os.Bundle;
-import android.util.Pair;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 public class CardioFragment extends ExerciseFragment{
 
@@ -23,13 +21,16 @@ public class CardioFragment extends ExerciseFragment{
         ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
         header.exerciseName.setText("Exercise");
-        header.time.setText("Mins");
+        header.save.setText("Save");
+        header.time.setText("Min");
         header.distance.setText("Distance");
 
         header.exerciseName.setTypeface(null, Typeface.BOLD);
+        header.save.setTypeface(null, Typeface.BOLD);
         header.time.setTypeface(null, Typeface.BOLD);
         header.distance.setTypeface(null, Typeface.BOLD);
 
+        header.save.setVisibility(View.VISIBLE);
         header.time.setVisibility(View.VISIBLE);
         header.distance.setVisibility(View.VISIBLE);
 
@@ -52,10 +53,12 @@ public class CardioFragment extends ExerciseFragment{
         itemView.distance.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.DISTANCE));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
+        itemView.checkbox.setOnClickListener(adapter.getCheckBox(exercise));
         itemView.time.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.TIME));
         itemView.distance.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.DISTANCE));
 
         // Set data items visibility to true
+        itemView.checkbox.setVisibility(View.VISIBLE);
         itemView.time.setVisibility(View.VISIBLE);
         itemView.distance.setVisibility(View.VISIBLE);
 

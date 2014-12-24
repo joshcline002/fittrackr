@@ -14,7 +14,7 @@ package globalindustryinc.fittrackr;
         import android.app.ActionBar;
         import android.content.Context;
         import android.os.Bundle;
-        import android.support.v4.app.ActionBarDrawerToggle;
+        import android.support.v7.app.ActionBarDrawerToggle;
         import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentActivity;
         import android.support.v4.app.FragmentManager;
@@ -29,7 +29,7 @@ public class NavigationDrawer extends DrawerLayout {
     private ActionBarDrawerToggle drawerToggle;
     private ListView lvDrawer;
     private NavDrawerListAdapter drawerAdapter;
-    private ArrayList<NavDrawerItem> navDrawerItems;
+    private ArrayList<navDrawerItem> navDrawerItems;
     private ArrayList<FragmentNavItem> drawerNavItems;
     private int drawerContainerRes;
 
@@ -37,7 +37,7 @@ public class NavigationDrawer extends DrawerLayout {
     public void setupDrawerConfiguration(ListView drawerListView, int drawerItemRes, int drawerContainerRes) {
         // Setup navigation items array
         drawerNavItems = new ArrayList<NavigationDrawer.FragmentNavItem>();
-        navDrawerItems = new ArrayList<NavDrawerItem>();
+        navDrawerItems = new ArrayList<navDrawerItem>();
         this.drawerContainerRes = drawerContainerRes;
         // Setup drawer list exercise
         lvDrawer = drawerListView;
@@ -57,7 +57,7 @@ public class NavigationDrawer extends DrawerLayout {
     // addNavItem("First", R.drawable.ic_one, "First Fragment", FirstFragment.class)
     public void addNavItem(String navTitle, int icon, String windowTitle, Class<? extends Fragment> fragmentClass) {
         // adding nav drawer items to array
-        navDrawerItems.add(new NavDrawerItem(navTitle, icon));
+        navDrawerItems.add(new navDrawerItem(navTitle, icon));
         // Set the adapter for the list exercise
         drawerAdapter = new NavDrawerListAdapter(getActivity(), navDrawerItems);
         lvDrawer.setAdapter(drawerAdapter);
@@ -158,7 +158,6 @@ public class NavigationDrawer extends DrawerLayout {
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(getActivity(), /* host Activity */
                 this, /* DrawerLayout object */
-                R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open, /* "open drawer" description for accessibility */
                 R.string.drawer_close /* "close drawer" description for accessibility */
         ) {

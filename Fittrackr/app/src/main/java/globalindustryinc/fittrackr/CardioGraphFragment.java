@@ -36,7 +36,7 @@ public class CardioGraphFragment extends Fragment {
         );
         GraphViewData[] data;
 
-        exercises = Database.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.CARDIO);
+        exercises = SharedPref.retrieveExercises(getActivity(), Exercise.EXERCISE_TYPE.CARDIO);
 
         int size = exercises.size();
         String[] names = new String[size];

@@ -5,7 +5,9 @@ package globalindustryinc.fittrackr;
  */
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
@@ -28,35 +31,58 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     View rootView;
     EditText exerciseInput;
     ListView exerciseListView;
+    CheckBox checkView;
     LinkedList<Exercise> exercises;
     MySQLiteHelper db;
     LinkedList<Exercise> sqlExercises = new LinkedList<Exercise>();
-
+    Handler mHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        rootView = inflater.inflate(R.layout.fragment_lifting, container, false);
+        mHandler = new Handler();
+        rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         // Obtain views from layout
+        checkView = (CheckBox) rootView.findViewById(R.id.checkbox);
         exerciseInput = (EditText) rootView.findViewById(R.id.exercise_input);
         exerciseListView = (ListView) rootView.findViewById(R.id.exerciseListView);
 
         // Initialize and fetch data
-        fetchExerciseData();
+       new Thread(new Runnable() {
+           public void run() {
+               fetchExerciseData();
+               mHandler.post(new Runnable() {
+                   @Override
+                   public void run() {
+                       setupLiftingListView();
+                   }
+               });
+           }
+       }).start();
 
         // Setup views for use
-        setupLiftingInput();
-        setupLiftingListView();
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                setupLiftingInput();
+            }
+        }).start();
 
         setHasOptionsMenu(true);
-        db = new MySQLiteHelper(getActivity());
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                db = new MySQLiteHelper(getActivity());
+            }
+        }).start();
         return rootView;
     }
 
     private void fetchExerciseData() {
-        exercises = Database.retrieveExercises(getActivity(), getExerciseType());
+        exercises = SharedPref.retrieveExercises(getActivity(), getExerciseType());
     }
 
     private void setupLiftingInput() {
@@ -73,10 +99,17 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     }
 
     private void addExercise(String exerciseName) {
-        Exercise exercise = new Exercise(Exercise.EXERCISE_TYPE.LIFTING,exerciseName);
-        exercises.add(exercise);
-        exerciseInput.getText().clear();
-        ((ExerciseListViewAdapter)((HeaderViewListAdapter) exerciseListView.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();    }
+        if(!exerciseName.isEmpty()) {
+            Exercise exercise = new Exercise(Exercise.EXERCISE_TYPE.LIFTING, exerciseName);
+            exercises.add(exercise);
+            exerciseInput.getText().clear();
+            ((ExerciseListViewAdapter) ((HeaderViewListAdapter) exerciseListView.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+            notifySharedPrefOfChangedExercise();
+        }else{
+            Toast.makeText(getActivity(),"No Exercise Name Given.",Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     /**
      * Sets up the adapter for the listview and adds a header to clarify data in list items.
@@ -95,23 +128,22 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(R.id.save==item.getItemId()){
-            notifyDatabaseOfChangedExercise();
+            notifySharedPrefOfChangedExercise();
+            notifydbOfChangedExercises();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void notifyDatabaseOfChangedExercise(){
+    private void notifydbOfChangedExercises(){
+                db.createExercise(getExerciseType(),sqlExercises);
+    }
 
-        db.createExercise(getExerciseType(),sqlExercises);
-        sqlExercises.clear();
-        Database.saveExercises(getActivity(),getExerciseType(),exercises);
+    private void notifySharedPrefOfChangedExercise(){
+        SharedPref.saveExercises(getActivity(),getExerciseType(),exercises);
         Toast.makeText(getActivity(),"Exercises saved.",Toast.LENGTH_LONG).show();
     }
 
     public class ExerciseListViewAdapter extends BaseAdapter {
-
-        public int EXERCISE_KEY = 11;
-        public int ATTRIBUTE_KEY = 22;
 
         @Override
         public int getCount() {
@@ -137,6 +169,27 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
             return new TextWatcher(view,attribute);
         }
 
+        public checkBox getCheckBox(Exercise view){
+            return new checkBox(view);
+        }
+
+    }
+
+    public class checkBox implements View.OnClickListener{
+        Exercise exercise;
+
+        public checkBox(Exercise exercise){
+            this.exercise = exercise;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(!(sqlExercises.contains(exercise))) {
+                sqlExercises.add(exercise);
+            } else {
+                sqlExercises.remove(exercise);
+            }
+        }
     }
 
     public class TextWatcher implements android.text.TextWatcher{
@@ -161,10 +214,7 @@ public abstract class ExerciseFragment extends android.support.v4.app.Fragment i
                 int newValue = Integer.parseInt(editable.toString());
                 Exercise exercise = this.exercise;
                 exercise.setValue(attribute, newValue);
-                if(!(sqlExercises.contains(exercise))) {
-                    sqlExercises.add(exercise);
-                }
-                //if (!changedExercises.contains(exercise)) changedExercises.add(exercise);
+
             }catch(NumberFormatException e){
 
             }

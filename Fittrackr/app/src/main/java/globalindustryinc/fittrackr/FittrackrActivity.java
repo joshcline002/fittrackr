@@ -40,19 +40,13 @@ public class FittrackrActivity extends FragmentActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content
-        if (dlDrawer.isDrawerOpen()) {
-            // Uncomment to hide menu items
-            // menu.findItem(R.id.mi_test).setVisible(false);
-        }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        // Uncomment to inflate menu items to Action Bar
-        // inflater.inflate(R.menu.main, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -80,5 +74,6 @@ public class FittrackrActivity extends FragmentActivity {
         // Pass any configuration change to the drawer toggles
         dlDrawer.getDrawerToggle().onConfigurationChanged(newConfig);
     }
+
 
 }

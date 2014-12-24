@@ -22,11 +22,14 @@ public class MeasureFragment extends ExerciseFragment {
         ExerciseItemView header = new ExerciseItemView(exerciseListView.getContext());
 
         header.exerciseName.setText("Name");
+        header.save.setText("Save");
         header.measurement.setText("Measurement");
 
         header.exerciseName.setTypeface(null, Typeface.BOLD);
+        header.save.setTypeface(null, Typeface.BOLD);
         header.measurement.setTypeface(null, Typeface.BOLD);
 
+        header.save.setVisibility(View.VISIBLE);
         header.measurement.setVisibility(View.VISIBLE);
 
         return header;
@@ -47,9 +50,11 @@ public class MeasureFragment extends ExerciseFragment {
         itemView.measurement.setText(exercise.getAttibuteString(Exercise.ATTRIBUTES.TIME));
 
         // Set exercises and listeners for when done editing values, exercise can be edited
+        itemView.checkbox.setOnClickListener(adapter.getCheckBox(exercise));
         itemView.measurement.addTextChangedListener(adapter.getTextWatcher(exercise, Exercise.ATTRIBUTES.MEASUREMENT));
 
         // Set data items visibility to true
+        itemView.checkbox.setVisibility(View.VISIBLE);
         itemView.measurement.setVisibility(View.VISIBLE);
 
         return itemView;
