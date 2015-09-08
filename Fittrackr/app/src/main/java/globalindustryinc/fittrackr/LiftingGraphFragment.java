@@ -45,19 +45,23 @@ public class LiftingGraphFragment extends Fragment {
                 }
         for (f =0; f<size; f++) {
             int[] weight = db.getWeightLifting(names[f]);
+            int[] sets = db.getSetsLifting(names[f]);
+            int[] reps = db.getRepsLifting(names[f]);
             for (int i = 0; i < weight.length; i++) {
-                if (max < weight[i]){
-                    max = weight[i];
+                int total = weight[i]*sets[i]*reps[i];
+                if (max < total){
+                    max = total;
                 }
-                if (min > weight[i]){
-                    min = weight[i];
+                if (min > total){
+                    min = total;
                 }
             }
 
             data = new GraphViewData[weight.length];
 
             for (int i = 0; i < weight.length; i++) {
-                data[i] = new GraphViewData(i+1, weight[i]);
+                int total = weight[i]*sets[i]*reps[i];
+                data[i] = new GraphViewData(i+1, total);
             }
             GraphViewSeries lifting = new GraphViewSeries(names[f], new GraphViewSeries.GraphViewSeriesStyle(Color.rgb((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)), size), data);
             graphView.addSeries(lifting);

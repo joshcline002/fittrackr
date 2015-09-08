@@ -125,6 +125,42 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return weight;
     }
 
+    public int[] getSetsLifting(String name){
+        String selectQuery = "SELECT  " + COLUMN_SETS + " FROM " + TABLE_LIFTING + " WHERE EXERCISE = '" + name + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        int size = c.getCount();
+        int[] sets = new int[size];
+        int i =0;
+        //
+        if (c.moveToFirst()){
+            do{
+                sets[i] = c.getInt(c.getColumnIndex(COLUMN_SETS));
+                i++;
+            } while (c.moveToNext());
+        }
+        c.close();
+        return sets;
+    }
+
+    public int[] getRepsLifting(String name){
+        String selectQuery = "SELECT  " + COLUMN_REPS + " FROM " + TABLE_LIFTING + " WHERE EXERCISE = '" + name + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        int size = c.getCount();
+        int[] reps = new int[size];
+        int i =0;
+        //
+        if (c.moveToFirst()){
+            do{
+                reps[i] = c.getInt(c.getColumnIndex(COLUMN_REPS));
+                i++;
+            } while (c.moveToNext());
+        }
+        c.close();
+        return reps;
+    }
+
     public int[] getAllMeasure(String name){
         String selectQuery = "SELECT  " + COLUMN_MEASUREMENT + " FROM " + TABLE_MEASURE + " WHERE EXERCISE = '" + name + "'";
         SQLiteDatabase db = this.getReadableDatabase();
